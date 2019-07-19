@@ -20,6 +20,9 @@ sudo usermod -aG skcc training
 # 계정 수도권한추가
 sudo usermod -aG wheel training
 ```
+![](/img/1-14.PNG)
+![](/img/1-15.PNG)
+![](/img/1-16.PNG)
 
 ii. List the your instances by IP address and DNS name
 
@@ -33,53 +36,7 @@ sudo vi /etc/hosts
 172.31.47.50 dn2.com dn2
 172.31.33.50 dn3.com dn3
 ```
-```
-sudo yum install bind-utils net-tools -y
-
-nslookup [도메인명]
-
-getent hosts
-
-```
-iii. List the Linux release you are using
-```
-1-11...
-linux version 확인
-
-[centos@ip-172-31-43-223 ~]$ grep . /etc/*-release
-```
-
-iv. List the file system capacity for the first node (master node)
-```
-1-12
-[centos@ip-172-31-43-162 ~]$ df -Th
-```
-
-v. List the command and output for yum repolist enabled
-```
-1-13
-yum repolist all
-```
-
-vi. List the /etc/passwd entries for training (only in master name node)
-```
-cat /etc/passwd | grep training
-```
-
-vii. List the /etc/group entries for skcc (only in master name node)
-```
-cat /etc/group | grep skcc
-```
-
-viii. List output of the flowing commands:
-```
-getent group skcc
-
-getent passwd training
-```
-
-#### 추가 setting
-
+![](/img/1-1.PNG)
 ```
 # 각각의 node (노드 명은 약어 말고 full name)
 sudo hostnamectl set-hostname <노드명>
@@ -88,6 +45,59 @@ sudo hostnamectl set-hostname <노드명>
 # 변경된 hostname 확인
 hostname
 ```
+![](/img/1-2.PNG)
+```
+sudo yum install bind-utils net-tools -y
+
+nslookup [도메인명]
+
+getent hosts
+```
+![](/img/1-18.PNG)
+![](/img/1-19.PNG)
+
+iii. List the Linux release you are using
+```
+1-11...
+linux version 확인
+
+[centos@ip-172-31-43-223 ~]$ grep . /etc/*-release
+```
+![](/img/1-11.PNG)
+
+iv. List the file system capacity for the first node (master node)
+```
+1-12
+[centos@ip-172-31-43-162 ~]$ df -Th
+```
+![](/img/1-12.PNG)
+
+v. List the command and output for yum repolist enabled
+```
+1-13
+yum repolist all
+```
+![](/img/1-13.PNG)
+
+
+vi. List the /etc/passwd entries for training (only in master name node)
+vii. List the /etc/group entries for skcc (only in master name node)
+```
+cat /etc/passwd | grep training
+cat /etc/group | grep skcc
+```
+
+![](/img/1-21.PNG)
+
+viii. List output of the flowing commands:
+```
+getent group skcc
+
+getent passwd training
+```
+![](/img/1-22.PNG)
+
+#### 추가 setting
 
 ```
 sudo vi /etc/ssh/sshd_config
@@ -97,15 +107,17 @@ sudo vi /etc/ssh/sshd_config
 sudo systemctl restart sshd.service
 sudo systemctl status sshd.service
 ```
-
+![](/img/1-3.PNG)
+![](/img/1-5.PNG)
 ```
 sudo yum update
 sudo yum install -y wget
 
 # 전체 y 선택
 ```
+![](/img/1-7.PNG)
 
-ntp setting
+**ntp setting**
 ```
 sudo yum install ntp
 
@@ -124,6 +136,8 @@ sudo systemctl start ntpd
 # 성공 확인
 ntpq -p
 ```
+![](/img/1-8.PNG)
+![](/img/1-9.PNG)
 
 
 ### c. Install Cloudera Manager
@@ -137,6 +151,7 @@ sudo wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.r
 sudo vi /etc/yum.repos.d/cloudera-manager.repo
 baseurl=https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.15.2/
 ```
+![](/img/1-10.PNG)
 
 [only util]
 
@@ -149,13 +164,18 @@ cloudera install
 # cloudera install
 sudo yum install cloudera-manager-daemons cloudera-manager-server
 ```
+![](/img/1-23.PNG)
 
 
 
 ### b. Install a MySQl server
 1. A command and output that shows the hostname of your database server
+
 2. A command and output that reports the database server version
+
+![](/img/추가1.PNG)
 3. A command and output that lists all the databases in the server
+![](/img/추가2.PNG)
 
 이미지 추가 1,2
 
@@ -166,6 +186,7 @@ sudo yum list oracle*
 
 sudo yum install -y oracle-j2sdk1.7
 ```
+![](/img/1-24.PNG)
 
 [only util]
 * java 경로 설정
@@ -183,6 +204,7 @@ source ~/.bash_profile
 # java version 확인
 java -version
 ```
+![](/img/1-25.PNG)
 
 [all nodes]  
 * jdbc connector 설치
@@ -196,6 +218,7 @@ sudo cp mysql-connector-java-5.1.47-bin.jar /usr/share/java/mysql-connector-java
 cd /usr/share/java/
 sudo yum install -y mysql-connector-java
 ```
+![](/img/1-26.PNG)
 
 [only util]
 * maria db 설치 및 권한 설정
@@ -208,11 +231,13 @@ sudo systemctl start mariadb
 # mariadb 상태 확인
 sudo systemctl status mariadb
 ```
+![](/img/1-27.PNG)
 
 ```
 # 권한 설정 : 전체 Y 선택
 sudo /usr/bin/mysql_secure_installation
 ```
+![](/img/1-28.PNG)
 
 * Creating Databases for Cloudera Software
 
@@ -243,6 +268,7 @@ GRANT ALL ON oozie.* TO 'oozie-user'@'%' IDENTIFIED BY 'password';
 
 FLUSH PRIVILEGES;
 ```
+![](/img/1-30.PNG)
 
 #### Cloudera Manager Install
 
@@ -251,6 +277,7 @@ FLUSH PRIVILEGES;
 #모든 Node에 비밀번호 설정 (*중요*)
 sudo passwd centos
 ```
+![](/img/1-31.PNG)
 
 [only util]
 ```
@@ -260,6 +287,7 @@ sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql scm scm-user password
 sudo systemctl start cloudera-scm-server
 sudo tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log
 ```
+![](/img/1-32.PNG)
 
 #### Install a cluster and deploy CDH
 
@@ -328,15 +356,46 @@ Sqoop2 Server - util
 
 **Impala 서비스 추가**  
 
-![](/img/1-56.PNG)
+```
+Impala Catalog Server - util
+Impala State Store- util
+Impala EDaemon - dn[1-3]
+```
 
+![](/img/1-56.PNG)
+![](/img/1-57.PNG)
+
+**Oozie 서비스 추가**
+![](/img/1-58.PNG)
+~~~
+Oozie Server - util
+~~~
+![](/img/1-59.PNG)
+![](/img/1-60.PNG)
+![](/img/1-61.PNG)
+
+**Hue 서비스 추가**
+![](/img/1-63.PNG)
+```
+Hue Server - util
+Load Balancer - util
+```
+![](/img/1-64.PNG)
+![](/img/1-65.PNG)
+
+**모든 서비스 설치 완료!**
+![](/img/1-66.PNG)
 ####
 iv. In you cluster, create a user named “training” with password “training”
 make sure user “training” has both a linux and HDFS home directory
 ```
 hue - training 계정 생성
-user/training 폴더 생성 확인
 ```
+![](/img/1-67.PNG)
+~~~
+user/training 폴더 생성 확인
+~~~
+![](/img/1-68.PNG)
 
 ### 2. In MySQL create the sample tables that will be used for the rest of the test
 
@@ -346,6 +405,8 @@ mysql -u root -p
 
 create database test;
 ```
+test 데이터베이스 생성 확인  
+![](/img/1-69.PNG)
 
 #### b. Create 2 tables in the test databases: authors and posts.
 i. You will use the authors.sql and posts.sql script files that will be provided for you to generate the necessary tables
@@ -356,6 +417,7 @@ i. You will use the authors.sql and posts.sql script files that will be provided
 scp skcc.pem authors.sql.zip training@15.164.144.197:.
 scp skcc.pem authors.sql.zip training@15.164.144.197:.
 ```
+![](/img/1-70.PNG)
 
 ```
 sudo yum install -y unzip
@@ -363,6 +425,7 @@ sudo yum install -y unzip
 unzip authors.sql.zip
 unzip posts.sql.zip
 ```
+![](/img/1-71.PNG)
 
 ```
 mysql -u root -p
@@ -373,6 +436,7 @@ use test;
 source authors-23-04-2019-02-34-beta.sql
 source posts23-04-2019 02-44.sql
 ```
+![](/img/1-72.PNG)
 
 #### c. Create and grant user “training” with password “training” full access to the test database. (It is ok if you give training full access to the entire MySQL database)
 
@@ -381,6 +445,7 @@ create user 'training'@'%' identified by 'training';
 
 grant all privileges on *.* to 'training'@'%';
 ```
+![](/img/1-73.PNG)
 
 ### 3. Extract tables authors and posts from the database and create Hive tables.
 
@@ -411,6 +476,8 @@ sqoop import \
 --fields-terminated-by "\t" \
 --target-dir /user/training/authors
 ```
+![](/img/1-74.PNG)
+![](/img/1-75.PNG)
 
 #### b. For both tables, you will import the data in tab delimited text format
 
@@ -440,7 +507,7 @@ row format delimited
 fields terminated by '\t'
 location '/user/training/authors/.'
 ```
-
+![](/img/1-77.PNG)
 ```
 create table posts
 (
@@ -455,6 +522,7 @@ row format delimited
 fields terminated by '\t'
 location '/user/training/posts/.'
 ```
+![](/img/1-79.PNG)
 
 ### 4. Create and run a Hive/Impala query. From the query, generate the results dataset that you will use in the next step to export in MySQL.
 
@@ -470,6 +538,8 @@ where a.id = p.author_id
 group by a.id, a.first_name, a.last_name;
 ```
 
+![](/img/1-80.PNG)
+
 #### c. The output of the query should be saved in your HDFS home directory.
 
 i. Save it under “results” directory
@@ -483,6 +553,7 @@ from authors a, posts p
 where a.id = p.author_id
 group by a.id, a.first_name, a.last_name;
 ```
+![](/img/1-81.PNG)
 
 ### 5. Export the data from above query to MySQL
 
@@ -507,3 +578,4 @@ sqoop export \
 --fields-terminated-by '\t' \
 --export-dir hdfs://mn.com/user/training/results
 ```
+![](/img/1-83.PNG)
