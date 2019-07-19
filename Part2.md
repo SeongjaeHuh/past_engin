@@ -11,7 +11,8 @@ where a.status = 'Active'
 hive --database problem1 -f solution.sql
 ~~~
 ![](/img/2-2.PNG)
-**결과 확인**
+
+**[결과 확인]**
 ![](/img/2-3.PNG)
 
 
@@ -29,7 +30,7 @@ INPUTFORMAT "parquet.hive.DeprecatedParquetInputFormat"
 OUTPUTFORMAT "parquet.hive.DeprecatedParquetOutputFormat"
 LOCATION '/user/training/problem2/data/employee';
 ```
-**결과 확인**
+**[결과 확인]**
 ![](/img/2-5.PNG)
 
 ## 3.
@@ -41,7 +42,7 @@ on a.custid=b.id
 where a.amount >= 0
 ;
 ```
-**결과 확인**
+**[결과 확인]**
 ![](/img/2-8.PNG)
 
 ## 4.
@@ -105,7 +106,7 @@ FIELDS TERMINATED BY '\t'
 SELECT * FROM solution
 ;
 ```
-**결과 확인**
+**[결과 확인]**
 ![](/img/2-15.PNG)
 
 ## 5.
@@ -129,7 +130,8 @@ and state = 'CA'
 ```
 hive --database problem5 -f solution.sql
 ```
-**결과 확인**
+**[결과 확인]**  
+
 ![](/img/2-20.PNG)
 
 
@@ -140,7 +142,7 @@ select id,fname,lname,address,city,state,zip,substr(birthday,7,4) birthyear
 from employee
 ;
 ```
-**결과 확인**
+**[결과 확인]**
 ![](/img/2-23.PNG)
 
 ## 7.
@@ -159,7 +161,8 @@ order by lname, fname
 ```
 hive --database problem7 -f solution.sql
 ```
-**결과 확인**
+**[결과 확인]**  
+
 ![](/img/2-27.PNG)
 
 ## 8.
@@ -173,8 +176,9 @@ sqoop export
 --fields-terminated-by '\t'
 --export-dir /user/training/problem8/data/customer/.
 ```
-![](/img/2-30.PNG)
-**결과 확인**
+![](/img/2-30.PNG)  
+
+**[결과 확인]**
 ![](/img/2-31.PNG)
 
 ## 9.
@@ -185,6 +189,9 @@ create table solution as
 select concat('A',id) id, fname, lname, address, city, state, zip from customer
 ;
 ```
+
+**[결과 확인]**  
+
 ![](/img/2-33.PNG)
 
 ## 10.
@@ -196,7 +203,8 @@ from billing b, customer c
 where b.id = c.id
 ;
 ```
-**결과 확인**
+**[결과 확인]** 
+
 ![](/img/2-36.PNG)
 
 
@@ -210,7 +218,8 @@ group by o.prod_id
 order by cnt desc
 limit 3;
 ```
-**결과 확인**
+**[결과 확인]**  
+
 ![](/img/2-40.PNG)
 
 ```
@@ -221,7 +230,8 @@ and d.prod_id = p.prod_id
 and p.brand = 'Dualcore'
 group by to_date(o.order_date);
 ```
-**결과 확인**
+**[결과 확인]**  
+
 ![](/img/2-41.PNG)
 
 ```
@@ -233,5 +243,6 @@ group by o.order_id
 order by revenue desc
 limit 10;
 ```
-**결과 확인**
+**[결과 확인]**  
+
 ![](/img/2-42.PNG)
