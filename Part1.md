@@ -93,7 +93,7 @@ getent passwd training
 ```
 ![](/img/1-22.PNG)
 
-### 추가 setting
+### b. 추가 setting
 
 #### sshd_config setting for each node [all nodes!]
 ```
@@ -168,7 +168,7 @@ sudo yum install cloudera-manager-daemons cloudera-manager-server
 
 
 
-### b. Install a MySQl server
+### d. Install a MySQl server
 A command and output that reports the database server version
 
 ![](/img/추가1.PNG)
@@ -220,7 +220,7 @@ sudo yum install -y mysql-connector-java
 ![](/img/1-26.PNG)
 
 
-### c. maria db 설치 및 권한 설정 [only util]  
+### e. maria db 설치 및 권한 설정 [only util]  
 
 ```
 sudo yum install -y mariadb-server
@@ -269,7 +269,7 @@ FLUSH PRIVILEGES;
 ```
 ![](/img/1-30.PNG)
 
-#### Cloudera Manager Install
+### f. Cloudera Manager Install
 
 **[all nodes]**
 ```
