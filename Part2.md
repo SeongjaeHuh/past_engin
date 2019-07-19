@@ -1,4 +1,4 @@
-1번
+## 1.
 
 ```
 select a.id as id, a.type as type, a.status as status, a.amount as amount, a.amount-b.average as difference
@@ -7,9 +7,15 @@ on a.type = b.type
 where a.status = 'Active'
 ;
 ```
+~~~
+hive --database problem1 -f solution.sql
+~~~
+![](/img/2-2.PNG)
+**결과 확인**
+![](/img/2-3.PNG)
 
 
-2번
+## 2.
 
 ```
 create database problem2;
@@ -23,8 +29,10 @@ INPUTFORMAT "parquet.hive.DeprecatedParquetInputFormat"
 OUTPUTFORMAT "parquet.hive.DeprecatedParquetOutputFormat"
 LOCATION '/user/training/problem2/data/employee';
 ```
+**결과 확인**
+![](/img/2-5.PNG)
 
-3번
+## 3.
 ```
 create table solution as
 select b.id as id , b.fname as fname, b.lname as lname, regexp_replace(b.hphone,'[ )(-]','') as hphone
@@ -33,10 +41,10 @@ on a.custid=b.id
 where a.amount >= 0
 ;
 ```
+**결과 확인**
+![](/img/2-8.PNG)
 
-4번
-
-
+## 4.
 ```
 create external table employee1
 (
@@ -52,6 +60,7 @@ row format delimited
 fields terminated by '\t'
 location '/user/training/problem4/data/employee1/.'
 ```
+![](/img/2-11.PNG)
 ```
 create external table employee2
 (
@@ -68,6 +77,7 @@ row format delimited
 fields terminated by ','
 location '/user/training/problem4/data/employee2/.'
 ```
+![](/img/2-12.PNG)
 
 ```
 create table solution as
@@ -85,20 +95,20 @@ from employee2
 where state = 'CA'
 ) res
 ;
+```
+![](/img/2-13.PNG)
 
 ```
-
-```
-
 insert OVERWRITE DIRECTORY '/user/training/problem4/solution/'
 row format delimited
 FIELDS TERMINATED BY '\t'
 SELECT * FROM solution
 ;
 ```
+**결과 확인**
+![](/img/2-15.PNG)
 
-
-5번
+## 5.
 
 ```
 select concat_ws(',', cus.fname, cus.lname, cus.zip)
@@ -114,27 +124,26 @@ where city='Palo Alto'
 and state = 'CA'
 ;
 ```
+![](/img/2-18.PNG)
 
 ```
 hive --database problem5 -f solution.sql
 ```
+**결과 확인**
+![](/img/2-20.PNG)
 
 
-6번
-
-
+## 6.
 ```
-
 create table solution as
 select id,fname,lname,address,city,state,zip,substr(birthday,7,4) birthyear
 from employee
 ;
 ```
+**결과 확인**
+![](/img/2-23.PNG)
 
-
-
-
-7번
+## 7.
 ```
 select concat_ws(',',res.lname,res.fname)
 from
@@ -146,11 +155,14 @@ order by lname, fname
 ) res
 ;
 ```
+![](/img/2-25.PNG)
 ```
 hive --database problem7 -f solution.sql
 ```
+**결과 확인**
+![](/img/2-27.PNG)
 
-8번
+## 8.
 
 ```
 sqoop export
@@ -161,8 +173,11 @@ sqoop export
 --fields-terminated-by '\t'
 --export-dir /user/training/problem8/data/customer/.
 ```
+![](/img/2-30.PNG)
+**결과 확인**
+![](/img/2-31.PNG)
 
-9번
+## 9.
 
 ```
 # concat 사용하니까 id의 type이 자동으로 string이 되었음.
@@ -170,9 +185,9 @@ create table solution as
 select concat('A',id) id, fname, lname, address, city, state, zip from customer
 ;
 ```
+![](/img/2-33.PNG)
 
-
-10번
+## 10.
 
 ```
 create view solution as
@@ -181,8 +196,11 @@ from billing b, customer c
 where b.id = c.id
 ;
 ```
+**결과 확인**
+![](/img/2-36.PNG)
 
-11번
+
+## 11.
 
 ```
 select o.prod_id, count(*) cnt from order_details o, products p
@@ -192,6 +210,8 @@ group by o.prod_id
 order by cnt desc
 limit 3;
 ```
+**결과 확인**
+![](/img/2-40.PNG)
 
 ```
 select to_date(o.order_date) date, sum(p.price) revenue, sum(p.price-p.cost) profit
@@ -201,6 +221,8 @@ and d.prod_id = p.prod_id
 and p.brand = 'Dualcore'
 group by to_date(o.order_date);
 ```
+**결과 확인**
+![](/img/2-41.PNG)
 
 ```
 select o.order_id order_id, sum(p.price) revenue
@@ -211,3 +233,5 @@ group by o.order_id
 order by revenue desc
 limit 10;
 ```
+**결과 확인**
+![](/img/2-42.PNG)
