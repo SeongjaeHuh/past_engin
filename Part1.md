@@ -1,7 +1,7 @@
-### 1. Create a CDH Cluster on AWS
+# 1. Create a CDH Cluster on AWS
 
-#### a. Linux setup
-i. Add the following linux accounts to [all nodes]
+## a. Linux setup
+###  Add the following linux accounts to [all nodes]
 1. User training with a UID of 3800
 2. Set the password for user “training” to “training”
 3. Create the group skcc and add training to it
@@ -24,7 +24,7 @@ sudo usermod -aG wheel training
 ![](/img/1-15.PNG)
 ![](/img/1-16.PNG)
 
-ii. List the your instances by IP address and DNS name
+### List the your instances by IP address and DNS name
 
 ```
 sudo vi /etc/hosts
@@ -37,6 +37,7 @@ sudo vi /etc/hosts
 172.31.33.50 dn3.com dn3
 ```
 ![](/img/1-1.PNG)
+**Hostname modification for each node**
 ```
 # 각각의 node (노드 명은 약어 말고 full name)
 sudo hostnamectl set-hostname <노드명>
@@ -56,7 +57,7 @@ getent hosts
 ![](/img/1-18.PNG)
 ![](/img/1-19.PNG)
 
-iii. List the Linux release you are using
+###  List the Linux release you are using
 ```
 linux version 확인
 
@@ -64,21 +65,21 @@ linux version 확인
 ```
 ![](/img/1-11.PNG)
 
-iv. List the file system capacity for the first node (master node)
+###  List the file system capacity for the first node (master node)
 ```
 [centos@ip-172-31-43-162 ~]$ df -Th
 ```
 ![](/img/1-12.PNG)
 
-v. List the command and output for yum repolist enabled
+###  List the command and output for yum repolist enabled
 ```
 yum repolist all
 ```
 ![](/img/1-13.PNG)
 
 
-vi. List the /etc/passwd entries for training (only in master name node)
-vii. List the /etc/group entries for skcc (only in master name node)
+###  List the /etc/passwd entries for training (only in master name node)
+###  List the /etc/group entries for skcc (only in master name node)
 ```
 cat /etc/passwd | grep training
 cat /etc/group | grep skcc
@@ -86,7 +87,7 @@ cat /etc/group | grep skcc
 
 ![](/img/1-21.PNG)
 
-viii. List output of the flowing commands:
+###  List output of the flowing commands:
 ```
 getent group skcc
 
@@ -94,8 +95,9 @@ getent passwd training
 ```
 ![](/img/1-22.PNG)
 
-#### 추가 setting
+### 추가 setting
 
+* sshd_config setting for each node [all nodes!]
 ```
 sudo vi /etc/ssh/sshd_config
 # PasswordAuthentication -> yes 로 변경 후 저장
@@ -106,6 +108,9 @@ sudo systemctl status sshd.service
 ```
 ![](/img/1-3.PNG)
 ![](/img/1-5.PNG)
+
+* Install dependencies using yum [all nodes]
+
 ```
 sudo yum update
 sudo yum install -y wget
@@ -114,7 +119,7 @@ sudo yum install -y wget
 ```
 ![](/img/1-7.PNG)
 
-**ntp setting**
+* ntp setting
 ```
 sudo yum install ntp
 
@@ -137,10 +142,10 @@ ntpq -p
 ![](/img/1-9.PNG)
 
 
-### c. Install Cloudera Manager
+## c. Install Cloudera Manager
 CDH version 5.15.2
 
-[all nodes]
+**[all nodes]**
 ```
 sudo wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
 
@@ -150,13 +155,13 @@ baseurl=https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.15.2/
 ```
 ![](/img/1-10.PNG)
 
-[only util]
+**[only util]**
 
-rpc에 key 추가
+* rpc에 key 추가
 ```
 sudo rpm --import https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
 ```
-cloudera install
+* cloudera install
 ```
 # cloudera install
 sudo yum install cloudera-manager-daemons cloudera-manager-server
@@ -165,7 +170,7 @@ sudo yum install cloudera-manager-daemons cloudera-manager-server
 
 
 
-### b. Install a MySQl server
+## b. Install a MySQl server
 1. A command and output that shows the hostname of your database server
 
 2. A command and output that reports the database server version
@@ -174,9 +179,8 @@ sudo yum install cloudera-manager-daemons cloudera-manager-server
 3. A command and output that lists all the databases in the server
 ![](/img/추가2.PNG)
 
-이미지 추가 1,2
 
-[all nodes]
+• Install a supported Oracle JDK [all nodes]
 ```
 # 설치 가능한 jdk list 확인
 sudo yum list oracle*
@@ -185,8 +189,8 @@ sudo yum install -y oracle-j2sdk1.7
 ```
 ![](/img/1-24.PNG)
 
-[only util]
-* java 경로 설정
+
+* java 경로 설정 [only util]  
 
 ```
 vi ~/.bash_profile
@@ -203,8 +207,8 @@ java -version
 ```
 ![](/img/1-25.PNG)
 
-[all nodes]  
-* jdbc connector 설치
+  
+* jdbc connector 설치 [all nodes]
 
 ```
 sudo wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz
@@ -217,8 +221,8 @@ sudo yum install -y mysql-connector-java
 ```
 ![](/img/1-26.PNG)
 
-[only util]
-* maria db 설치 및 권한 설정
+
+### maria db 설치 및 권한 설정 [only util]  
 
 ```
 sudo yum install -y mariadb-server
@@ -267,16 +271,16 @@ FLUSH PRIVILEGES;
 ```
 ![](/img/1-30.PNG)
 
-#### Cloudera Manager Install
+### Cloudera Manager Install
 
-[all nodes]
+**[all nodes]**
 ```
 #모든 Node에 비밀번호 설정 (*중요*)
 sudo passwd centos
 ```
 ![](/img/1-31.PNG)
 
-[only util]
+**[only util]**
 ```
 #  set CM DB
 sudo /usr/share/cmf/schema/scm_prepare_database.sh mysql scm scm-user password
@@ -286,7 +290,7 @@ sudo tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log
 ```
 ![](/img/1-32.PNG)
 
-#### Install a cluster and deploy CDH
+### Install a cluster and deploy CDH
 
 ```
 http://util.com:7180
@@ -382,21 +386,20 @@ Load Balancer - util
 
 **모든 서비스 설치 완료!**
 ![](/img/1-66.PNG)
-####
-iv. In you cluster, create a user named “training” with password “training”
-make sure user “training” has both a linux and HDFS home directory
+
+### In you cluster, create a user named “training” with password “training”
+
 ```
 hue - training 계정 생성
 ```
 ![](/img/1-67.PNG)
-~~~
-user/training 폴더 생성 확인
-~~~
+### make sure user “training” has both a linux and HDFS home directory
+
 ![](/img/1-68.PNG)
 
-### 2. In MySQL create the sample tables that will be used for the rest of the test
+# 2. In MySQL create the sample tables that will be used for the rest of the test
 
-#### a. In MySQL, create a database and name it “test”
+## a. In MySQL, create a database and name it “test”
 ```
 mysql -u root -p
 
@@ -405,8 +408,8 @@ create database test;
 test 데이터베이스 생성 확인  
 ![](/img/1-69.PNG)
 
-#### b. Create 2 tables in the test databases: authors and posts.
-i. You will use the authors.sql and posts.sql script files that will be provided for you to generate the necessary tables
+## b. Create 2 tables in the test databases: authors and posts.
+### You will use the authors.sql and posts.sql script files that will be provided for you to generate the necessary tables
 
 ```
 # file copy local > util
@@ -435,7 +438,7 @@ source posts23-04-2019 02-44.sql
 ```
 ![](/img/1-72.PNG)
 
-#### c. Create and grant user “training” with password “training” full access to the test database. (It is ok if you give training full access to the entire MySQL database)
+## c. Create and grant user “training” with password “training” full access to the test database.
 
 ```
 create user 'training'@'%' identified by 'training';
@@ -444,9 +447,9 @@ grant all privileges on *.* to 'training'@'%';
 ```
 ![](/img/1-73.PNG)
 
-### 3. Extract tables authors and posts from the database and create Hive tables.
+# 3. Extract tables authors and posts from the database and create Hive tables.
 
-#### a. Use Sqoop to import the data from authors and posts
+## a. Use Sqoop to import the data from authors and posts
 
 ```
 # training 계정으로 접속
@@ -476,19 +479,19 @@ sqoop import \
 ![](/img/1-74.PNG)
 ![](/img/1-75.PNG)
 
-#### b. For both tables, you will import the data in tab delimited text format
+## b. For both tables, you will import the data in tab delimited text format
 
-#### c. The imported data should be saved in training’s HDFS home directory
+## c. The imported data should be saved in training’s HDFS home directory
 i. Create authors and posts directories in your HDFS home directory
 ii. Save the imported data in each
 
-#### d. In Hive, create 2 tables: authors and posts. They will contain the data that you imported from Sqoop in above step.
+## d. In Hive, create 2 tables: authors and posts. They will contain the data that you imported from Sqoop in above step.
 
-#### e. You are free to use whatever database in Hive.
+## e. You are free to use whatever database in Hive.
 
-#### f. Create authors as an external table.
+## f. Create authors as an external table.
 
-#### g. Create posts as a managed table.
+## g. Create posts as a managed table.
 
 ```
 create external table authors
@@ -521,12 +524,12 @@ location '/user/training/posts/.'
 ```
 ![](/img/1-79.PNG)
 
-### 4. Create and run a Hive/Impala query. From the query, generate the results dataset that you will use in the next step to export in MySQL.
+# 4. Create and run a Hive/Impala query. From the query, generate the results dataset that you will use in the next step to export in MySQL.
 
-#### a. Create a query that counts the number of posts each author has created.
+## a. Create a query that counts the number of posts each author has created.
 i. The id column in authors matches the author_id key in posts.
 
-#### b. The output of the query should provide the following information:
+## b. The output of the query should provide the following information:
 
 ```
 select a.id Id, a.first_name fname, a.last_name lname, count(*) num_posts
@@ -537,7 +540,7 @@ group by a.id, a.first_name, a.last_name;
 
 ![](/img/1-80.PNG)
 
-#### c. The output of the query should be saved in your HDFS home directory.
+## c. The output of the query should be saved in your HDFS home directory.
 
 i. Save it under “results” directory
 
@@ -552,19 +555,19 @@ group by a.id, a.first_name, a.last_name;
 ```
 ![](/img/1-81.PNG)
 
-### 5. Export the data from above query to MySQL
+# 5. Export the data from above query to MySQL
 
-#### a. Create a MySQL table and name it “results”
+## a. Create a MySQL table and name it “results”
 i. Make sure it has the necessary columns of matching type as the results of your query from above
 
-#### b. The table should be created under the database “test”
+## b. The table should be created under the database “test”
 
 ```
 create table results
 ( Id int, fname varchar(500), lname varchar(500), num_posts int);
 ```
 
-#### c. Finally, export into MySQL the results of your query
+## c. Finally, export into MySQL the results of your query
 
 ```
 sqoop export \
