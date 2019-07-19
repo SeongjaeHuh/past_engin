@@ -58,7 +58,6 @@ getent hosts
 
 iii. List the Linux release you are using
 ```
-1-11...
 linux version 확인
 
 [centos@ip-172-31-43-223 ~]$ grep . /etc/*-release
@@ -67,14 +66,12 @@ linux version 확인
 
 iv. List the file system capacity for the first node (master node)
 ```
-1-12
 [centos@ip-172-31-43-162 ~]$ df -Th
 ```
 ![](/img/1-12.PNG)
 
 v. List the command and output for yum repolist enabled
 ```
-1-13
 yum repolist all
 ```
 ![](/img/1-13.PNG)

@@ -12,7 +12,8 @@ hive --database problem1 -f solution.sql
 ~~~
 ![](/img/2-2.PNG)
 
-**[결과 확인]**
+**[결과 확인]**  
+
 ![](/img/2-3.PNG)
 
 
@@ -30,7 +31,8 @@ INPUTFORMAT "parquet.hive.DeprecatedParquetInputFormat"
 OUTPUTFORMAT "parquet.hive.DeprecatedParquetOutputFormat"
 LOCATION '/user/training/problem2/data/employee';
 ```
-**[결과 확인]**
+**[결과 확인]**  
+
 ![](/img/2-5.PNG)
 
 ## 3.
