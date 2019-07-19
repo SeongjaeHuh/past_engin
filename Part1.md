@@ -36,8 +36,10 @@ sudo vi /etc/hosts
 172.31.47.50 dn2.com dn2
 172.31.33.50 dn3.com dn3
 ```
-![](/img/1-1.PNG)
+![](/img/1-1.PNG)  
+
 **Hostname modification for each node**
+
 ```
 # 각각의 node (노드 명은 약어 말고 full name)
 sudo hostnamectl set-hostname <노드명>
@@ -51,10 +53,11 @@ hostname
 sudo yum install bind-utils net-tools -y
 
 nslookup [도메인명]
-
-getent hosts
 ```
 ![](/img/1-18.PNG)
+```
+getent hosts
+```
 ![](/img/1-19.PNG)
 
 ###  List the Linux release you are using
@@ -78,8 +81,8 @@ yum repolist all
 ![](/img/1-13.PNG)
 
 
-###  List the /etc/passwd entries for training (only in master name node)
-###  List the /etc/group entries for skcc (only in master name node)
+### List the /etc/passwd entries for training
+### List the /etc/group entries for skcc
 ```
 cat /etc/passwd | grep training
 cat /etc/group | grep skcc
@@ -171,12 +174,12 @@ sudo yum install cloudera-manager-daemons cloudera-manager-server
 
 
 ## b. Install a MySQl server
-1. A command and output that shows the hostname of your database server
-
-2. A command and output that reports the database server version
+A command and output that reports the database server version
 
 ![](/img/추가1.PNG)
-3. A command and output that lists all the databases in the server
+
+A command and output that lists all the databases in the server
+
 ![](/img/추가2.PNG)
 
 
@@ -449,8 +452,6 @@ grant all privileges on *.* to 'training'@'%';
 
 # 3. Extract tables authors and posts from the database and create Hive tables.
 
-## a. Use Sqoop to import the data from authors and posts
-
 ```
 # training 계정으로 접속
 su training
@@ -479,19 +480,6 @@ sqoop import \
 ![](/img/1-74.PNG)
 ![](/img/1-75.PNG)
 
-## b. For both tables, you will import the data in tab delimited text format
-
-## c. The imported data should be saved in training’s HDFS home directory
-i. Create authors and posts directories in your HDFS home directory
-ii. Save the imported data in each
-
-## d. In Hive, create 2 tables: authors and posts. They will contain the data that you imported from Sqoop in above step.
-
-## e. You are free to use whatever database in Hive.
-
-## f. Create authors as an external table.
-
-## g. Create posts as a managed table.
 
 ```
 create external table authors
@@ -526,11 +514,6 @@ location '/user/training/posts/.'
 
 # 4. Create and run a Hive/Impala query. From the query, generate the results dataset that you will use in the next step to export in MySQL.
 
-## a. Create a query that counts the number of posts each author has created.
-i. The id column in authors matches the author_id key in posts.
-
-## b. The output of the query should provide the following information:
-
 ```
 select a.id Id, a.first_name fname, a.last_name lname, count(*) num_posts
 from authors a, posts p
@@ -540,9 +523,7 @@ group by a.id, a.first_name, a.last_name;
 
 ![](/img/1-80.PNG)
 
-## c. The output of the query should be saved in your HDFS home directory.
-
-i. Save it under “results” directory
+## The output of the query should be saved in your HDFS home directory.
 
 ```
 insert overwrite directory '/user/training/results'
@@ -557,17 +538,14 @@ group by a.id, a.first_name, a.last_name;
 
 # 5. Export the data from above query to MySQL
 
-## a. Create a MySQL table and name it “results”
-i. Make sure it has the necessary columns of matching type as the results of your query from above
-
-## b. The table should be created under the database “test”
+## Create a MySQL "results" table under the database "test"
 
 ```
 create table results
 ( Id int, fname varchar(500), lname varchar(500), num_posts int);
 ```
 
-## c. Finally, export into MySQL the results of your query
+## export into MySQL the results of your query
 
 ```
 sqoop export \
@@ -579,3 +557,4 @@ sqoop export \
 --export-dir hdfs://mn.com/user/training/results
 ```
 ![](/img/1-83.PNG)
+
