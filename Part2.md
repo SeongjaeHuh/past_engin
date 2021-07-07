@@ -1,6 +1,6 @@
 ## 1.
 
-```
+```sql
 select a.id as id, a.type as type, a.status as status, a.amount as amount, a.amount-b.average as difference
 from account a join (select avg(amount) as average, type from account where status = 'Closed' group by type) b
 on a.type = b.type
@@ -10,6 +10,7 @@ where a.status = 'Active'
 ~~~
 hive --database problem1 -f solution.sql
 ~~~
+
 ![](/img/2-2.PNG)
 
 **[결과 확인]**  
