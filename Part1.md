@@ -31,8 +31,7 @@ sudo wget http://ec2-3-34-114-205.ap-northeast-2.compute.amazonaws.com/cloudera-
 
 #### rpc에 key 추가
 ```
-sudo rpm --import http://ec2-3-34-114-205.ap-northeast-
-2.compute.amazonaws.com/cloudera-repos/cdh5/5.16.2/RPM-GPG-KEYcloudera
+sudo rpm --import http://ec2-3-34-114-205.ap-northeast-2.compute.amazonaws.com/cloudera-repos/cdh5/5.16.2/RPM-GPG-KEYcloudera
 ```
 #### cloudera install
 ```
