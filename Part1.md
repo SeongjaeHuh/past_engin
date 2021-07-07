@@ -42,7 +42,10 @@ sudo yum install cloudera-manager-daemons cloudera-manager-server
 ```
 ![](/img/1-23.PNG)
 
+### JDK Install
+https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
 
+jdk-8u291-linux-x64.rpm
 
 ### d. Install a MySQl server
 A command and output that reports the database server version
