@@ -23,8 +23,7 @@ sudo yum install wget
 
 **[all nodes]**
 ```
-sudo wget http://ec2-3-34-114-205.ap-northeast-
-2.compute.amazonaws.com/cloudera-repos/cdh5/5.16.2/ -P /etc/yum.repos.d/
+sudo wget http://ec2-3-34-114-205.ap-northeast-2.compute.amazonaws.com/cloudera-repos/cdh5/5.16.2/ -P /etc/yum.repos.d/
 ```
 ![](/img/1-10.PNG)
 
