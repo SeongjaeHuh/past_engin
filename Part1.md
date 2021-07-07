@@ -17,7 +17,7 @@
 CDH version 5.15.2
 
 ```
-sudo install wget
+sudo yum install wget
 ```
 
 
