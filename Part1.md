@@ -181,6 +181,14 @@ sudo systemctl enable mariadb
 sudo systemctl start mariadb
 # mariadb 상태 확인
 sudo systemctl status mariadb
+sudo /usr/bin/mysql_secure_installation
+
+# 1. enter
+# Y, root pw입력
+# Y
+# N
+# Y
+# Y
 ```
 
 ![](/img/1-27.PNG)
