@@ -3,149 +3,28 @@
 ### a. Linux setup
 ####  Add the following linux accounts to [all nodes]
 
-```
-# 계정 생성
-sudo useradd training
-sudo usermod -u 3800 training
-sudo passwd training
-
-sudo groupadd skcc
-cat /etc/passwd | grep training
-sudo usermod -aG skcc training
-
-# 계정 수도권한추가
-sudo usermod -aG wheel training
-```
-![](/img/1-14.PNG)
-![](/img/1-15.PNG)
-![](/img/1-16.PNG)
-
-#### List the your instances by IP address and DNS name
-
-```
-sudo vi /etc/hosts
-
-# 아래와 같이 내용 추가 private ip <모든 node>
-172.31.43.223 util.com util
-172.31.43.162 mn.com mn
-172.31.37.124 dn1.com dn1
-172.31.47.50 dn2.com dn2
-172.31.33.50 dn3.com dn3
-```
-![](/img/1-1.PNG)  
-
-#### Hostname modification for each node
-
-```
-# 각각의 node (노드 명은 약어 말고 full name)
-sudo hostnamectl set-hostname <노드명>
-예) sudo hostnamectl set-hostname util.com
-
-# 변경된 hostname 확인
-hostname
-```
-![](/img/1-2.PNG)
-```
-sudo yum install bind-utils net-tools -y
-
-nslookup [도메인명]
-```
-![](/img/1-18.PNG)
-```
-getent hosts
-```
-![](/img/1-19.PNG)
-
-####  List the Linux release you are using
-```
-linux version 확인
-
-[centos@ip-172-31-43-223 ~]$ grep . /etc/*-release
-```
-![](/img/1-11.PNG)
-
-####  List the file system capacity for the first node (master node)
-```
-[centos@ip-172-31-43-162 ~]$ df -Th
-```
-![](/img/1-12.PNG)
-
-####  List the command and output for yum repolist enabled
-```
-yum repolist all
-```
-![](/img/1-13.PNG)
-
-
-#### List the /etc/passwd entries for training and the /etc/group entries for skcc
-```
-cat /etc/passwd | grep training
-cat /etc/group | grep skcc
-```
-
-![](/img/1-21.PNG)
-
-####  Getent command
-```
-getent group skcc
-
-getent passwd training
-```
-![](/img/1-22.PNG)
-
-### b. 추가 setting
-
-#### sshd_config setting for each node [all nodes!]
-```
-sudo vi /etc/ssh/sshd_config
-# PasswordAuthentication -> yes 로 변경 후 저장
-
-# sshd 재시작 및 상태확인
-sudo systemctl restart sshd.service
-sudo systemctl status sshd.service
-```
-![](/img/1-3.PNG)
-![](/img/1-5.PNG)
-
-#### Install dependencies using yum [all nodes]
-
-```
-sudo yum update
-sudo yum install -y wget
-
-# 전체 y 선택
-```
-![](/img/1-7.PNG)
-
-#### ntp setting
-```
-sudo yum install ntp
-
-sudo vi /etc/ntp.conf
-# 내용 변경 : 위에 네줄 주석처리, 아래 세줄 추가
-#server 0.centos.pool.ntp.org
-#server 1.centos.pool.ntp.org
-#server 2.centos.pool.ntp.org
-#server 3.centos.pool.ntp.org
-server kr.pool.ntp.org
-server time.bora.net
-server time.kornet.net
-
-sudo chkconfig ntpd on
-sudo systemctl start ntpd
-# 성공 확인
-ntpq -p
-```
-![](/img/1-8.PNG)
-![](/img/1-9.PNG)
+1번: github 5번
+2번: findmnt 
+3번: df -Th
+4번: github 6번
+5번: ipconfig
+6번: 재작년github hostname 설정
+7번: github 7번
+8번: github 8번
 
 
 ### c. Install Cloudera Manager
 CDH version 5.15.2
 
+```
+sudo install wget
+```
+
+
 **[all nodes]**
 ```
-sudo wget https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo -P /etc/yum.repos.d/
+sudo wget http://ec2-3-34-114-205.ap-northeast-
+2.compute.amazonaws.com/cloudera-repos/cdh5/5.16.2/ -P /etc/yum.repos.d/
 
 # base url 수정
 sudo vi /etc/yum.repos.d/cloudera-manager.repo
@@ -157,7 +36,8 @@ baseurl=https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.15.2/
 
 #### rpc에 key 추가
 ```
-sudo rpm --import https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
+sudo rpm --import http://ec2-3-34-114-205.ap-northeast-
+2.compute.amazonaws.com/cloudera-repos/cdh5/5.16.2/RPM-GPG-KEYcloudera
 ```
 #### cloudera install
 ```
