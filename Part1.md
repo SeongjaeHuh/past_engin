@@ -25,10 +25,6 @@ sudo install wget
 ```
 sudo wget http://ec2-3-34-114-205.ap-northeast-
 2.compute.amazonaws.com/cloudera-repos/cdh5/5.16.2/ -P /etc/yum.repos.d/
-
-# base url 수정
-sudo vi /etc/yum.repos.d/cloudera-manager.repo
-baseurl=https://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.15.2/
 ```
 ![](/img/1-10.PNG)
 
